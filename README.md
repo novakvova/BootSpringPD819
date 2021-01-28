@@ -17,4 +17,4 @@ jar tvf target\PorjectMaven-1.0-SNAPSHOT.jar
 
 java -jar target\PorjectMaven-1.0-SNAPSHOT.jar
 
-java -jar target\pv825.jar --server.port=8084
+java -jar target\pv819.jar --server.port=8085
