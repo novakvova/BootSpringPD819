@@ -17,4 +17,14 @@ public class GreetingController {
 
         return "index";
     }
+
+    @GetMapping("/contact")
+    public String contactPage() {
+        return "contact";
+    }
+
+    @GetMapping("/about")
+    public String aboutPage() {
+        return "about";
+    }
 }
