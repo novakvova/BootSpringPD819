@@ -1,6 +1,7 @@
 package app.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 public class User {
@@ -9,9 +10,11 @@ public class User {
     private long id;
 
     @Column(nullable=false)
+    @NotBlank(message = "Name is mandatory")
     private String name;
 
     @Column(nullable=false)
+    @NotBlank(message = "Email is mandatory")
     private String email;
 
     public User() {

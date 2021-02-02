@@ -21,21 +21,23 @@
                                 <tr>
                                     <th>Name</th>
                                     <th>Email</th>
-                                    <th>Edit</th>
-                                    <th>Delete</th>
+                                    <th>Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 <tr th:each="user : ${users}">
                                     <td th:text="${user.name}"></td>
                                     <td th:text="${user.email}"></td>
-                                    <td><a th:href="@{/edit/{id}(id=${user.id})}">Edit</a></td>
-                                    <td><a th:href="@{/delete/{id}(id=${user.id})}">Delete</a></td>
+
+                                    <td>
+                                        <a th:href="@{/edit/{id}(id=${user.id})}" class="btn btn-warning mr-2">Edit</a>
+                                        <a th:href="@{/delete/{id}(id=${user.id})}" class="btn btn-danger">Delete</a>
+                                    </td>
                                 </tr>
                                 </tbody>
                             </table>
                         </div>
-                        <p><a href="/signup">Add a new user</a></p>
+                        <p><a href="/create">Add a new user</a></p>
                     </div>
                 </div>
             </div>
