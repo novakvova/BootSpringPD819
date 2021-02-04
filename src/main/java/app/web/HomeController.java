@@ -4,6 +4,7 @@ import java.util.*;
 import app.entities.User;
 import app.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,11 +19,14 @@ import javax.validation.Valid;
 public class HomeController {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public HomeController(UserRepository userRepository)
+    public HomeController(UserRepository userRepository,
+                          PasswordEncoder passwordEncoder)
     {
         this.userRepository=userRepository;
+        this.passwordEncoder=passwordEncoder;
     }
 
     @GetMapping("/greeting")
@@ -33,6 +37,13 @@ public class HomeController {
 
     @GetMapping("/")
     public String home(Model model) {
+
+//        User user = new User();
+//        user.setName("Валера");
+//        user.setEmail("jon@gmail.com");
+//        String pass = passwordEncoder.encode("123456");
+//        user.setPassword(pass);
+//        userRepository.save(user);
         List<User> users = userRepository.findAll();
         model.addAttribute("users", users);
         return "index";
