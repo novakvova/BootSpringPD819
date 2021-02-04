@@ -2,6 +2,7 @@ package app.entities;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.util.*;
 
 @Entity
 @Table(name="tblUsers")
@@ -18,7 +19,18 @@ public class User {
     @NotBlank(message = "Email is mandatory")
     private String email;
 
+    @Column(nullable=false)
+    private String password;
+
+    @ManyToMany(cascade=CascadeType.MERGE)
+    @JoinTable(
+            name="tblUserRoles",
+            joinColumns={@JoinColumn(name="userId", referencedColumnName="id")},
+            inverseJoinColumns={@JoinColumn(name="roleId", referencedColumnName="id")})
+    private List<Role> roles;
+
     public User() {
+        roles = new ArrayList<Role>();
     }
 
     public long getId() {
