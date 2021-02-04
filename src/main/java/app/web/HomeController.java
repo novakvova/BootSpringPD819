@@ -70,6 +70,13 @@ public class HomeController {
             return "create";
         }
 
+        if(userRepository.findByEmail(user.getEmail()) != null){
+            model.addAttribute("error", "Email is used");
+            return "create";
+        }
+
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+
         userRepository.save(user);
         return "redirect:/";
     }
