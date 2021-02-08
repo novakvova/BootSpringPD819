@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -29,6 +30,12 @@
             </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/about}">About Us</a>
+            </li>
+            <li sec:authorize="isAnonymous()"  class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Вхід</a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+                <a class="nav-link" th:href="@{/logout}">[[${#httpServletRequest.remoteUser}]]! Вихід</a>
             </li>
         </ul>
     </div>
