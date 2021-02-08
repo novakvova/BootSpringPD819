@@ -35,7 +35,16 @@
                 <a class="nav-link" th:href="@{/login}">Вхід</a>
             </li>
             <li sec:authorize="isAuthenticated()" class="nav-item">
-                <a class="nav-link" th:href="@{/logout}">[[${#httpServletRequest.remoteUser}]]! Вихід</a>
+                <a class="nav-link" th:href="@{/logout}">
+                    <span th:text="${#authentication.name}"></span>!
+                </a>
+            </li>
+            <li sec:authorize="isAuthenticated()" class="nav-item">
+                <span class="nav-link">
+                    <form th:action="@{/logout}" method="post">
+                        <input type="submit" value="Вихід"/>
+                    </form>
+                </span>
             </li>
         </ul>
     </div>
