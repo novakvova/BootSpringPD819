@@ -1,5 +1,6 @@
 package app.securingweb;
 
+import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,7 +18,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import java.util.Arrays;
+//import java.util.ArrayList;
+import java.util.*;
 
 @Configuration
 @EnableWebSecurity
@@ -40,9 +42,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("*"));
-        configuration.setAllowedMethods(Arrays.asList("*"));
-        configuration.setAllowedHeaders(Arrays.asList("*"));
+        configuration.setAllowedOrigins(Arrays.asList("https://belka.ml/", "*"));
+        configuration.setAllowedMethods(Arrays.asList("https://belka.ml/", "*"));
+        configuration.setAllowedHeaders(Arrays.asList("https://belka.ml/", "*"));
         configuration.setAllowCredentials(true);
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", configuration);
@@ -83,3 +85,5 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 //        return new InMemoryUserDetailsManager(user);
 //    }
 }
+
+
