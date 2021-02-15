@@ -36,6 +36,20 @@
                                 </tr>
                                 </tbody>
                             </table>
+                            <nav th:if = "${totalPages > 1}" aria-label="Page navigation example">
+                                <ul class="pagination">
+                                    <li class="page-item">
+                                        <a class="page-link" href="#">Previous</a>
+                                    </li>
+                                    <li th:each="i: ${#numbers.sequence(1, totalPages)}" class="page-item"
+                                        th:classappend="${i==currentPage} ? 'active' : ''"
+                                        >
+                                        <a class="page-link" th:href="@{'/?page='+${i}}">[[${i}]]</a>
+                                    </li>
+                                    <li class="page-item"><a class="page-link" href="#">Next</a></li>
+                                </ul>
+                            </nav>
+
                         </div>
                         <p><a href="/create">Add a new user</a></p>
                     </div>

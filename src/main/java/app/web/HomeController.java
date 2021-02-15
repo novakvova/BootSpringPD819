@@ -43,6 +43,11 @@ public class HomeController {
     @GetMapping("/")
     public String home(@RequestParam(name="page", defaultValue = "1") int pageNo, Model model) {
         Page<User> page = userService.findPaginated(pageNo, 2, "name", "asc");
+
+        model.addAttribute("currentPage", pageNo);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("totalItems", page.getTotalElements());
+
         List<User> users = page.getContent();//userRepository.findAll();
         model.addAttribute("users", users);
         return "index";
