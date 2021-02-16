@@ -2,11 +2,14 @@ package app.service;
 
 import app.entities.User;
 import app.repositories.UserRepository;
+import app.search.SearchCriteria;
+import app.search.SearchSpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -54,7 +57,14 @@ public class UserServiceImpl implements UserService {
         Sort sort = sortDirection.equalsIgnoreCase(Sort.Direction.ASC.name()) ? Sort.by(sortField).ascending() :
                 Sort.by(sortField).descending();
 
+        SearchSpecification spec1 =
+                new SearchSpecification(new SearchCriteria("name", ":", ""));
+
+        SearchSpecification spec2 =
+                new SearchSpecification(new SearchCriteria("email", ":", "neo"));
+
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
-        return this.userRepository.findAll(pageable);
+
+        return this.userRepository.findAll(Specification.where(spec1).and(spec2), pageable);
     }
 }
