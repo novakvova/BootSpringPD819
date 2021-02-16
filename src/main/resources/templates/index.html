@@ -21,12 +21,16 @@
                                 <tr>
                                     <th>
                                         <a th:href="@{'/?page='+${currentPage}+'&sortField=name&sortDir='+${reverseSortDir}}">
+                                            <span th:if="${sortDir == 'asc' && sortField=='name'}">&#8595;</span>
+                                            <span th:if="${sortDir == 'desc' && sortField=='name'}">&#8593;</span>
                                             Name
                                         </a>
 
                                     </th>
                                     <th>
                                         <a th:href="@{'/?page='+${currentPage}+'&sortField=email&sortDir='+${reverseSortDir}}">
+                                            <span th:if="${sortDir == 'asc' && sortField=='email'}">&#8595;</span>
+                                            <span th:if="${sortDir == 'desc' && sortField=='email'}">&#8593;</span>
                                             Email
                                         </a>
                                     </th>
