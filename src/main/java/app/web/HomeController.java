@@ -41,12 +41,19 @@ public class HomeController {
     }
 
     @GetMapping("/")
-    public String home(@RequestParam(name="page", defaultValue = "1") int pageNo, Model model) {
-        Page<User> page = userService.findPaginated(pageNo, 2, "name", "asc");
+    public String home(@RequestParam(name="page", defaultValue = "1") int pageNo,
+                       @RequestParam(name="sortField", defaultValue = "name") String sortField,
+                       @RequestParam(name="sortDir", defaultValue = "asc") String sortDir,
+                       Model model) {
+        Page<User> page = userService.findPaginated(pageNo, 2, sortField, sortDir);
 
         model.addAttribute("currentPage", pageNo);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("totalItems", page.getTotalElements());
+
+        model.addAttribute("sortField", sortField);
+        model.addAttribute("sortDir", sortDir);
+        model.addAttribute("reverseSortDir", sortDir.equals("asc") ? "desc" : "asc");
 
         List<User> users = page.getContent();//userRepository.findAll();
         model.addAttribute("users", users);
