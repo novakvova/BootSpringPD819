@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
                 new SearchSpecification(new SearchCriteria("name", ":", ""));
 
         SearchSpecification spec2 =
-                new SearchSpecification(new SearchCriteria("email", ":", "neo"));
+                new SearchSpecification(new SearchCriteria("email", ":", ""));
 
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 

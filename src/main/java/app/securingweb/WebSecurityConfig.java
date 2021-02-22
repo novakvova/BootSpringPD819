@@ -1,5 +1,6 @@
 package app.securingweb;
 
+import app.constants.Roles;
 import org.apache.catalina.filters.CorsFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -58,6 +59,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 //.cors().and().csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/").permitAll()
+                .antMatchers("/create").hasAuthority(Roles.Admin)
                 .antMatchers("/lib/**").permitAll()
                 .anyRequest().authenticated()
                 .and()
@@ -66,12 +68,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .permitAll()
                 .and()
                 .logout()
-                .permitAll();
+                .permitAll()
+                .and()
+                .exceptionHandling().accessDeniedPage("/login");
     }
-
-
-
-
 //    @Bean
 //    @Override
 //    public UserDetailsService userDetailsService() {
