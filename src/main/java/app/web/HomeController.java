@@ -2,6 +2,7 @@ package app.web;
 
 import java.util.*;
 import app.entities.User;
+import app.mail.EmailService;
 import app.repositories.UserRepository;
 import app.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +24,18 @@ public class HomeController {
     private final UserRepository userRepository;
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
+    private final EmailService emailService;
 
     @Autowired
     public HomeController(UserRepository userRepository,
                           UserService userService,
-                          PasswordEncoder passwordEncoder)
+                          PasswordEncoder passwordEncoder,
+                          EmailService emailService)
     {
         this.userRepository=userRepository;
         this.userService = userService;
         this.passwordEncoder=passwordEncoder;
+        this.emailService= emailService;
     }
 
     @GetMapping("/greeting")
@@ -89,6 +93,8 @@ public class HomeController {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
 
         userRepository.save(user);
+
+        emailService.sendSimpleMessage(user.getEmail(),"Успішна реєстрації","Спасібо");
         return "redirect:/";
     }
 
