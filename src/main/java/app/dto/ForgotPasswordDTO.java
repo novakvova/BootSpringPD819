@@ -1,6 +1,9 @@
 package app.dto;
 
+import javax.validation.constraints.NotBlank;
+
 public class ForgotPasswordDTO {
+    @NotBlank(message = "Email is mandatory")
     private String email;
 
     public String getEmail() {
