@@ -1,6 +1,9 @@
 package app.service;
 
+import app.entities.PasswordResetToken;
 import app.entities.User;
+import app.mail.EmailService;
+import app.repositories.PasswordResetTokenRepository;
 import app.repositories.UserRepository;
 import app.search.SearchCriteria;
 import app.search.SearchSpecification;
@@ -12,17 +15,25 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+    private final PasswordResetTokenRepository passwordResetTokenRepository;
+    private final EmailService emailService;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository) {
+    public UserServiceImpl(UserRepository userRepository,
+                           PasswordResetTokenRepository passwordResetTokenRepository,
+                           EmailService emailService) {
         this.userRepository=userRepository;
+        this.passwordResetTokenRepository = passwordResetTokenRepository;
+        this.emailService=emailService;
     }
 
     @Override
@@ -66,5 +77,28 @@ public class UserServiceImpl implements UserService {
         Pageable pageable = PageRequest.of(pageNo - 1, pageSize, sort);
 
         return this.userRepository.findAll(Specification.where(spec1).and(spec2), pageable);
+    }
+
+    @Override
+    public void resetPasswordSendEmail(User user, String domain) {
+        PasswordResetToken passwordResetToken;
+        String token = UUID.randomUUID().toString();
+        Optional<PasswordResetToken> optional = passwordResetTokenRepository.findById(user.getId());
+
+        if (optional.isPresent()) {
+            passwordResetToken = optional.get();
+            passwordResetToken.setExpiryDate(new Date(System.currentTimeMillis()+PasswordResetToken.getEXPIRATION()));
+            passwordResetToken.setToken(token);
+        }
+        else
+            passwordResetToken=new PasswordResetToken(token, user);
+        passwordResetTokenRepository.save(passwordResetToken);
+
+        final String url =domain  + "/user/changePassword?token=" + token;
+
+        String subject = "Reset Password";
+        String text = "Щоб відновити пароль нажміть на силку \r\n" +
+                "<a href = '"+url+"'>Відновити</a>";
+        emailService.sendMimeMessage(user.getEmail(),subject,text);
     }
 }
